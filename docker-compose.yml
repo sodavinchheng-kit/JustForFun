@@ -1,0 +1,29 @@
+version: "3"
+services:
+  api:
+    container_name: just_for_fun
+    build:
+      context: ./api
+      dockerfile: ../docker/api/Dockerfile
+    restart: always
+    ports:
+      - "5000:5000"
+    links:
+      - db
+  client:
+    container_name: web_front_end
+    build:
+      context: ./client
+      dockerfile: ../docker/client/Dockerfile
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      HOST: 0.0.0.0
+  db:
+    container_name: mongo_container
+    image: "mongo"
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./data:/data/db
